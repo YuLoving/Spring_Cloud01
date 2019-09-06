@@ -37,9 +37,10 @@ public class DeptController_Consumer {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	private static final String REST_URL_PREFIX = "http://localhost:8001";
-
+	//private static final String REST_URL_PREFIX = "http://localhost:8001";
 	
+	//Ribbon和Eureka整合后Consumer可以直接调用服务而不用再关心地址和端口号
+	private static final String REST_URL_PREFIX = "http://MICROSERVICECLOUD-DEPT";//eureka上的微服务名
 	
 	@RequestMapping(value="consumer/dept/add")
 	public boolean add(Dept dept) {
@@ -58,4 +59,11 @@ public class DeptController_Consumer {
 	return restTemplate.getForObject(REST_URL_PREFIX+"/dept/list", List.class);
 	    }   
 	
+	
+	//测试@EnableDiscoveryClient,消费端可以调用服务发现
+	  @RequestMapping(value="/consumer/dept/discovery") 
+	  public Object discovery()
+	  {
+	   return restTemplate.getForObject(REST_URL_PREFIX+"/dept/discovery", Object.class);
+	  } 
 }
